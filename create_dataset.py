@@ -48,11 +48,14 @@ csvwriter = csv.writer(output_file)
 
 # Loop over all words in dataset and save them
 for word, frequency in tqdm(get_word()):
-    phonemes = word_to_phonemes(word)
-    number = ''.join(phoneme_to_number(phonemes))
-    pos = get_part_of_speech(word)
-    result = Word(word, number, pos, ','.join(phonemes), frequency)
-    csvwriter.writerow(dataclasses.astuple(result))
+    try:
+        phonemes = word_to_phonemes(word)
+        number = ''.join(phoneme_to_number(phonemes))
+        pos = get_part_of_speech(word)
+        result = Word(word, number, pos, ','.join(phonemes), frequency)
+        csvwriter.writerow(dataclasses.astuple(result))
+    except:
+        print("Something went wrong.")
 
 frequency_file.close()
 output_file.close()
