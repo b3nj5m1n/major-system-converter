@@ -379,6 +379,11 @@ func main() {
 	flag.Var(&dataset_files, "d", "Dataset file(s) to use.")
 	flag.Parse()
 
+	if len(dataset_files) < 1 {
+		fmt.Println(style_error.Render("Specify at least one dataset."))
+		os.Exit(1)
+	}
+
 	p := tea.NewProgram(initialModel())
 	if err := p.Start(); err != nil {
 		fmt.Println(style_error.Render("Alas, there's been an error."))
