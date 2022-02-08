@@ -15,7 +15,7 @@ output_file = open(args.output_file, "w")
 
 # Retrieve a word/frequency from the frequency dataset
 def get_word():
-    while line := frequency_file.readline().split(" "):
+    while len(line := frequency_file.readline().split(" ")) > 1:
         yield (line[0], int(line[1].rstrip()))
 
 # Convert word to phonemes
