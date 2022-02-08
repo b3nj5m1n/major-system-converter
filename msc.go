@@ -17,6 +17,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/muesli/reflow/wordwrap"
+	"github.com/muesli/reflow/wrap"
 )
 
 const (
@@ -209,8 +210,11 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, nil
 	case Result:
 		m.result = msg
-		if (m.result.lines - (height_results - (height_results / 2))) < m.scroll {
-			m.scroll = m.result.lines - (height_results - (height_results / 2))
+		if (m.result.lines - (height_results / 2)) < m.scroll {
+			m.scroll = m.result.lines - (height_results / 2)
+		}
+		if m.scroll < 0 {
+			m.scroll = 0
 		}
 		return m, nil
 	default:
@@ -307,7 +311,7 @@ func format_word_list(m Model) tea.Cmd {
 		for _, word := range m.result_words {
 			result += format_word(word) + ", "
 		}
-		result = wordwrap.String(result, m.width*2/3)
+		result = wrap.String(wordwrap.String(result, m.width*2/3), m.width*2/3)
 		result_split := strings.Split(result, "\n")
 		result_len := len(result_split)
 		return Result{array: result_split, lines: result_len}
