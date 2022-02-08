@@ -210,11 +210,11 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, nil
 	case Result:
 		m.result = msg
-		if (m.result.lines - (height_results / 2)) < m.scroll {
-			m.scroll = m.result.lines - (height_results / 2)
-		}
 		if m.scroll < 0 {
 			m.scroll = 0
+		}
+		if (m.result.lines - (height_results / 2)) < m.scroll {
+			m.scroll = m.result.lines - (height_results / 2)
 		}
 		return m, nil
 	default:
